@@ -3,8 +3,8 @@ using webapp.Models;
 
 namespace webapp.Services
 {
-    public interface IMongoContext
+    public interface IMongoContext<T>
     {
-        IMongoCollection<User> Users { get; }
+        IMongoCollection<T> Documents { get; }
     }
 }
