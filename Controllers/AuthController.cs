@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
-
+using webapp.Services.Abstractions;
 using webapp.Models;
 using Microsoft.Extensions.Logging;
 
@@ -22,11 +22,15 @@ namespace webapp.Controllers
 
         private IConfiguration _config;
         private readonly ILogger<AuthController> _logger;
+        private IJwtHelper _jwtHelper;
+        private IUserRepository _userRepository;
 
-        public AuthController(IConfiguration config, ILogger<AuthController> logger) {
 
+        public AuthController(IConfiguration config, ILogger<AuthController> logger,IJwtHelper jwtHelper, IUserRepository userRepository) {
+            this._userRepository = userRepository;
             this._config = config;
             this._logger = logger;
+            this._jwtHelper = jwtHelper;
         }
 
         [HttpPost, Route("login")]
@@ -37,19 +41,16 @@ namespace webapp.Controllers
             {
                 return BadRequest("Invalid client request");
             }
+            var res = _userRepository.LoginUser(user.UserName, user.Password);
+
             if (user.UserName == "oleg"&& user.Password == "123")
             {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["ak:superSecretKey"]));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                var tokeOptions = new JwtSecurityToken(
-                    issuer: "http://localhost:5000",
-                    audience: "http://localhost:5000",
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(5),
-                    signingCredentials: signinCredentials
-                );
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                return Ok(new { Token = tokenString });
+                var claims = new List<Claim> {
+                   new Claim(ClaimTypes.Name,user.UserName),
+                   new Claim(ClaimTypes.Role, "Manager")
+                };
+                var tokenString = _jwtHelper.getToken(claims);
+                return Ok(new { Token = tokenString,Name= claims.GetClaimValueByType(ClaimTypes.Name) });
             }
             else
             {

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using Autofac.Extensions.DependencyInjection;
 using Serilog.Hosting;
 
 namespace webapp
@@ -34,17 +35,20 @@ namespace webapp
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
              WebHost.CreateDefaultBuilder(args)
+            .ConfigureServices(services=>services.AddAutofac())
             .ConfigureAppConfiguration((context, config) =>
             {
-              IHostingEnvironment env = context.HostingEnvironment;
-              config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-              .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
-              config.AddEnvironmentVariables();
+                IHostingEnvironment env = context.HostingEnvironment;
+                config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                config.AddEnvironmentVariables();
             })
             .ConfigureLogging(logging =>
-            {         
+            {
                 logging.AddSerilog();
             })
-        .UseStartup<Startup>();
+        .UseUrls("http://localhost:5000","https://localhost:5001")
+        .UseStartup<Startup>()
+        .UseKestrel();
     }
 }

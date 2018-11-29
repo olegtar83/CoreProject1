@@ -1,0 +1,46 @@
+[2018-11-25 14:04:10.066 +02:00 FTL] Microsoft.AspNetCore.Server.Kestrel
+Unable to start Kestrel.
+System.IO.IOException: Failed to bind to address https://127.0.0.1:5001: address already in use. ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted ---> System.Net.Sockets.SocketException: Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass22_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+
+[2018-11-25 14:08:31.688 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-25 14:16:35.454 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-25 14:17:09.359 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-25 14:17:13.736 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-25 14:17:58.073 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-25 19:18:16.906 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-25 19:19:06.746 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-25 19:19:21.884 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-25 19:25:35.458 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+

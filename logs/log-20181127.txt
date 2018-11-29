@@ -1,0 +1,39 @@
+[2018-11-27 11:42:42.407 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-27 12:08:55.233 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-27 12:18:35.585 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-27 12:19:09.208 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-27 12:22:11.164 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-27 12:23:31.903 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-27 12:24:23.144 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-27 12:35:26.300 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-27 12:38:47.454 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-27 12:39:11.455 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-27 12:40:57.987 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-27 12:41:11.690 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-27 12:52:34.960 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+

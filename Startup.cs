@@ -13,6 +13,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Autofac;
+using webapp.Services;
+using webapp.Services.Abstractions;
+using AutoMapper;
 
 namespace webapp
 {
@@ -24,11 +28,25 @@ namespace webapp
             this._config = configuration;
         }
 
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterType<JwtHelper>().As<IJwtHelper>();
+            builder.RegisterType<MongoContext>().As<IMongoContext>();
+            builder.RegisterType<UserRepository>().As<IUserRepository>();
+        }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<DbSettings>(options =>
+            {
+                options.ConnectionString
+                    = _config.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database
+                    = _config.GetSection("MongoConnection:Database").Value;
+            });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -38,18 +56,9 @@ namespace webapp
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "http://localhost:5000",
-                    ValidAudience = "http://localhost:5000",
+                    ValidIssuer = "Issuer",
+                    ValidAudience = "Audience",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["ak:superSecretKey"]))
-                };
-
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = "https://securetoken.google.com/my-firebase-project",
-                    ValidateAudience = true,
-                    ValidAudience = "my-firebase-project",
-                    ValidateLifetime = true
                 };
             });
 
@@ -60,6 +69,7 @@ namespace webapp
                     builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
                 });
             });
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
