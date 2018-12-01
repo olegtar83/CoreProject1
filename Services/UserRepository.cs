@@ -13,13 +13,18 @@ namespace webapp.Services
     public class UserRepository : IUserRepository
     {
         private IMongoContext<User> _context;
-        public UserRepository(IMongoContext<User> context) {
+        private IEncription _crypt;
+        public UserRepository(IMongoContext<User> context,IEncription crypt) {
             this._context = context;
+            this._crypt = crypt;
         }
 
         public async Task AddUser(User item)
         {
-            await _context.Documents.InsertOneAsync(item);
+             byte[] hashedPass;
+             _crypt.CreateValueHash(item.Password, out hashedPass);
+             item.Password = Convert.ToBase64String(hashedPass);
+             await _context.Documents.InsertOneAsync(item);
         }
 
         public async Task<IEnumerable<User>> GetAllUser()

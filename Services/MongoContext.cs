@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace webapp.Services
 {
-    public class MongoContext : IMongoContext<T>
+    public class MongoContext<T> : IMongoContext<T> 
     {
         private readonly IMongoDatabase _database = null;
 
@@ -23,7 +23,7 @@ namespace webapp.Services
         {
             get
             {
-                return _database.GetCollection<T>(nameof(T));
+                return _database.GetCollection<T>(typeof(T).Name);
             }
         }
     }

@@ -307,3 +307,15 @@ Hi from Oleg
 [2018-11-29 23:22:00.069 +02:00 INF] webapp.Controllers.AuthController
 logs working
 
+[2018-11-29 23:48:24.224 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-29 23:49:21.436 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-29 23:57:36.638 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-29 23:59:52.093 +02:00 INF] webapp.Controllers.AuthController
+logs working
+

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using webapp.Models;
 
 namespace webapp
 {
@@ -10,7 +11,7 @@ namespace webapp
     {
         public MappingSettings()
         {
-            //CreateMap<Department, DepartmentDTO>().ReverseMap();
+            CreateMap<LoginModel, User>().ForMember(d=>d.Name,opt=> { opt.MapFrom(s => s.UserName); });
         }
     }
 }

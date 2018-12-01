@@ -1,0 +1,21 @@
+[2018-11-30 00:07:07.549 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-30 00:21:48.464 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-30 00:23:07.903 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-30 00:37:46.700 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-30 00:38:37.726 +02:00 INF] webapp.Controllers.AuthController
+logs working
+
+[2018-11-30 00:44:42.679 +02:00 INF] webapp.Controllers.ValuesController
+Hi from Oleg
+
+[2018-11-30 00:45:01.483 +02:00 INF] webapp.Controllers.AuthController
+logs working
+

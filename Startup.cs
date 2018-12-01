@@ -31,8 +31,8 @@ namespace webapp
         public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterType<JwtHelper>().As<IJwtHelper>();
-           // builder.RegisterType<MongoContext>().As<IMongoContext<T>>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder.RegisterType<Encription>().As<IEncription>();
             builder.RegisterGeneric(typeof(MongoContext<>)).As(typeof(IMongoContext<>)).InstancePerDependency();
         }
 

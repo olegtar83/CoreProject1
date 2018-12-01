@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using webapp.Services.Abstractions;
 using webapp.Models;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
 
 namespace webapp.Controllers
@@ -24,24 +25,26 @@ namespace webapp.Controllers
         private readonly ILogger<AuthController> _logger;
         private IJwtHelper _jwtHelper;
         private IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
 
-        public AuthController(IConfiguration config, ILogger<AuthController> logger,IJwtHelper jwtHelper, IUserRepository userRepository) {
+        public AuthController(IConfiguration config, ILogger<AuthController> logger,IJwtHelper jwtHelper, IUserRepository userRepository, IMapper mapper) {
             this._userRepository = userRepository;
             this._config = config;
             this._logger = logger;
             this._jwtHelper = jwtHelper;
+            this._mapper = mapper;
         }
 
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody]LoginModel user)
+        public async Task< IActionResult> Login([FromBody]LoginModel user)
         {
-            _logger.LogInformation("logs working");
+            _logger.LogInformation("loging working");
             if (user == null)
             {
                 return BadRequest("Invalid client request");
             }
-            var res = _userRepository.LoginUser(user.UserName, user.Password);
+            var res =await _userRepository.LoginUser(user.UserName, user.Password);
 
             if (user.UserName == "oleg"&& user.Password == "123")
             {
@@ -58,6 +61,31 @@ namespace webapp.Controllers
             }
         }
 
+        [HttpPost,Route("register")]
+        public async Task<IActionResult> Register([FromBody]LoginModel user)
+        {
+            if (user == null)
+            {
+                return BadRequest("Invalid client request");
+            }
+            var item = _mapper.Map<User>(user);
+            try
+            {
+                await _userRepository.AddUser(item);
+                var claims = new List<Claim> {
+                   new Claim(ClaimTypes.Name,user.UserName),
+                   new Claim(ClaimTypes.Role, "User")
+                };
+                var tokenString = _jwtHelper.getToken(claims);
+                return Ok(new { Token = tokenString, Name = claims.GetClaimValueByType(ClaimTypes.Name) });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+
+        }
 
     }
 }
