@@ -21,9 +21,9 @@ namespace webapp.Services
 
         public async Task AddUser(User item)
         {
-             byte[] hashedPass;
+             string hashedPass;
              _crypt.CreateValueHash(item.Password, out hashedPass);
-             item.Password = Convert.ToBase64String(hashedPass);
+             item.Password = hashedPass;
              await _context.Documents.InsertOneAsync(item);
         }
 
@@ -52,7 +52,7 @@ namespace webapp.Services
 
         public async Task<User> LoginUser(string userName, string password)
         {
-            var query = _context.Documents.Find(u => u.Name == userName && u.Password == password);
+            var query = _context.Documents.Find(u => u.UserName == userName && u.Password == password);
             return await query.FirstOrDefaultAsync();
         }
 
@@ -75,7 +75,7 @@ namespace webapp.Services
         {
             var filter = Builders<User>.Filter.Eq(s => s.Id, item.Id);
             var update = Builders<User>.Update
-                       .Set(s => s.Name, item.Name)
+                       .Set(s => s.UserName, item.UserName)
                        .Set(s=>s.Password,item.Password)
                        .CurrentDate(s => s.UpdatedOn);
             UpdateResult actionResult
@@ -99,7 +99,7 @@ namespace webapp.Services
         public async Task<bool> UpdateUserDocument(string id, string Name)
         {
             var item = await GetUser(id) ?? new User();
-            item.Name = Name;
+            item.UserName = Name;
             item.UpdatedOn = DateTime.Now;
 
             return await UpdateUser(item, id);

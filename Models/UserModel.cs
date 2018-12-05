@@ -17,7 +17,15 @@ namespace webapp.Models
         // external Id, easier to reference: 1,2,3 or A, B, C etc.
         public string Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
+
+
+
+        public string UserName { get; set; } = string.Empty;
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime UpdatedOn { get; set; } = DateTime.Now;
