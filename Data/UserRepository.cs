@@ -13,15 +13,17 @@ namespace webapp.Services
     public class UserRepository : IUserRepository
     {
         private IMongoContext<User> _context;
+        private IGeneralRepository<User>_genRepo;
         private IEncription _crypt;
-        public UserRepository(IMongoContext<User> context,IEncription crypt) {
+        public UserRepository(IMongoContext<User> context,IGeneralRepository<User>genRepo,IEncription crypt) {
             this._context = context;
             this._crypt = crypt;
+            this._genRepo = genRepo;
         }
 
         public async Task AddUser(User item)
         {
-            
+             item.Id=await  _genRepo.GetNextAutoincrementValue();
              item.Password = _crypt.CreateValueHash(item.Password);
             await _context.Documents.InsertOneAsync(item);
         }
@@ -36,7 +38,7 @@ namespace webapp.Services
         {
             ObjectId internalId = GetInternalId(id);
             return await _context.Documents
-                            .Find(u => u.Id == id
+                            .Find(u => u.Id == 0
                                     || u.InternalId == internalId)
                             .FirstOrDefaultAsync();
 

@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace webapp.Services
+namespace webapp.Services.Abstractions
 {
     public interface IMongoContext<T> 
     {

@@ -24,12 +24,12 @@ namespace webapp.Controllers
         private IConfiguration _config;
         private readonly ILogger<AuthController> _logger;
         private IJwtHelper _jwtHelper;
-        private IUserRepository _userRepository;
+        private IUserRepository _userRepo;
         private readonly IMapper _mapper;
 
 
-        public AuthController(IConfiguration config, ILogger<AuthController> logger,IJwtHelper jwtHelper, IUserRepository userRepository, IMapper mapper) {
-            this._userRepository = userRepository;
+        public AuthController(IConfiguration config, ILogger<AuthController> logger,IJwtHelper jwtHelper, IUserRepository userRepo, IMapper mapper) {
+            this._userRepo = userRepo;
             this._config = config;
             this._logger = logger;
             this._jwtHelper = jwtHelper;
@@ -40,20 +40,21 @@ namespace webapp.Controllers
         public async Task< IActionResult> Login([FromBody]LoginModel user)
         {
             _logger.LogInformation("loging working");
-            if (!user.IsNull())
+            if (user.IsNull())
             {
                 return BadRequest("Invalid client request");
             }
-            var User =await _userRepository.LoginUser(user.UserName, user.Password);
+            var requestedUser = await _userRepo.LoginUser(user.UserName, user.Password);
 
-            if (!User.IsNull())
+            if (!requestedUser.IsNull())
             {
+
                 var claims = new List<Claim> {
-                   new Claim(ClaimTypes.Name,User.UserName),
-                   new Claim(ClaimTypes.Role, User.Role)
+                   new Claim(ClaimTypes.Name,requestedUser.UserName),
+                   new Claim(ClaimTypes.Role, requestedUser.Role)
                 };
                 var tokenString = _jwtHelper.getToken(claims);
-                return Ok(new { Token = tokenString,Name= User.FirstName+" "+User.LastName });
+                return Ok(new { Token = tokenString,Name= requestedUser.FirstName+" "+ requestedUser.LastName });
             }
             else
             {
@@ -71,7 +72,7 @@ namespace webapp.Controllers
             var item = _mapper.Map<User>(user);
             try
             {
-                await _userRepository.AddUser(item);
+                await _userRepo.AddUser(item);
                 var claims = new List<Claim> {
                    new Claim(ClaimTypes.Name,user.UserName),
                    new Claim(ClaimTypes.Role, "User")

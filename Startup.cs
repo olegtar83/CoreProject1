@@ -32,6 +32,8 @@ namespace webapp
             builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<Encription>().As<IEncription>();
             builder.RegisterGeneric(typeof(MongoContext<>)).As(typeof(IMongoContext<>)).InstancePerDependency();
+            builder.RegisterGeneric(typeof(GeneralRepository<>)).As(typeof(IGeneralRepository<>)).InstancePerDependency();
+
         }
 
 
