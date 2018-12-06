@@ -11,8 +11,8 @@ namespace webapp
     {
         public MappingSettings()
         {
-            CreateMap<LoginModel, User>().ForMember(d=>d.Email,opt=> { opt.MapFrom(s => s.UserName);})
-                .ForMember(d=>d.Role,opt=>opt.NullSubstitute("User"));
+            CreateMap<LoginModel, User>().ForMember(d => d.Email, opt => { opt.MapFrom(s => s.UserName); });
+              
         }
     }
 }

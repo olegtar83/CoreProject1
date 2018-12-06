@@ -40,20 +40,20 @@ namespace webapp.Controllers
         public async Task< IActionResult> Login([FromBody]LoginModel user)
         {
             _logger.LogInformation("loging working");
-            if (user == null)
+            if (!user.IsNull())
             {
                 return BadRequest("Invalid client request");
             }
-            var res =await _userRepository.LoginUser(user.UserName, user.Password);
+            var User =await _userRepository.LoginUser(user.UserName, user.Password);
 
-            if (user.UserName == "oleg"&& user.Password == "123")
+            if (!User.IsNull())
             {
                 var claims = new List<Claim> {
-                   new Claim(ClaimTypes.Name,user.UserName),
-                   new Claim(ClaimTypes.Role, "Manager")
+                   new Claim(ClaimTypes.Name,User.UserName),
+                   new Claim(ClaimTypes.Role, User.Role)
                 };
                 var tokenString = _jwtHelper.getToken(claims);
-                return Ok(new { Token = tokenString,Name= claims.GetClaimValueByType(ClaimTypes.Name) });
+                return Ok(new { Token = tokenString,Name= User.FirstName+" "+User.LastName });
             }
             else
             {

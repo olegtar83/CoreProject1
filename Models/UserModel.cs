@@ -29,8 +29,8 @@ namespace webapp.Models
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime UpdatedOn { get; set; } = DateTime.Now;
-
-        public string Role { get; set; }
+        [BsonDefaultValue("User")]
+        public string Role { get; set; } = "User";
 
         public int UserId { get; set; } = 0;
 

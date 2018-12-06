@@ -2,7 +2,7 @@
 {
     public interface IEncription
     {
-        void CreateValueHash(string password, out string valueHash);
+        string CreateValueHash(string password);
         bool VerifyValueHash(string value, byte[] valueHash);
     }
 }

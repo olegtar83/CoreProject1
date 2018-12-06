@@ -24,12 +24,13 @@ namespace webapp
             return true;
         }
 
-        public void CreateValueHash(string password, out string valueHash)
+
+        public string CreateValueHash(string password)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(keySalt))
             {
                var valueBytseHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                valueHash= Convert.ToBase64String(valueBytseHash);
+                return Convert.ToBase64String(valueBytseHash);
             }
         }
     }

@@ -21,10 +21,9 @@ namespace webapp.Services
 
         public async Task AddUser(User item)
         {
-             string hashedPass;
-             _crypt.CreateValueHash(item.Password, out hashedPass);
-             item.Password = hashedPass;
-             await _context.Documents.InsertOneAsync(item);
+            
+             item.Password = _crypt.CreateValueHash(item.Password);
+            await _context.Documents.InsertOneAsync(item);
         }
 
         public async Task<IEnumerable<User>> GetAllUser()
@@ -52,7 +51,8 @@ namespace webapp.Services
 
         public async Task<User> LoginUser(string userName, string password)
         {
-            var query = _context.Documents.Find(u => u.UserName == userName && u.Password == password);
+            password = _crypt.CreateValueHash(password);
+           var query = _context.Documents.Find(u => u.UserName == userName && u.Password == password);
             return await query.FirstOrDefaultAsync();
         }
 

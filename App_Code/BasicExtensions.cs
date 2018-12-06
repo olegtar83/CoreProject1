@@ -20,5 +20,10 @@ namespace webapp
                 return ex.Message;
             }
         }
+
+        public static bool IsNull(this object obj)
+        {
+            return obj == null ? true : false;
+        }
     }
 }
