@@ -30,7 +30,7 @@ namespace webapp
         {
             builder.RegisterType<JwtHelper>().As<IJwtHelper>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
-            builder.RegisterType<Encription>().As<IEncription>();
+            builder.RegisterType<Encryption>().As<IEncryption>();
             builder.RegisterGeneric(typeof(MongoContext<>)).As(typeof(IMongoContext<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(GeneralRepository<>)).As(typeof(IGeneralRepository<>)).InstancePerDependency();
 

@@ -14,8 +14,8 @@ namespace webapp.Services
     {
         private IMongoContext<User> _context;
         private IGeneralRepository<User>_genRepo;
-        private IEncription _crypt;
-        public UserRepository(IMongoContext<User> context,IGeneralRepository<User>genRepo,IEncription crypt) {
+        private IEncryption _crypt;
+        public UserRepository(IMongoContext<User> context,IGeneralRepository<User>genRepo,IEncryption crypt) {
             this._context = context;
             this._crypt = crypt;
             this._genRepo = genRepo;
@@ -23,26 +23,12 @@ namespace webapp.Services
 
         public async Task AddUser(User item)
         {
-             item.Id=await  _genRepo.GetNextAutoincrementValue();
+             item.Id= await  _genRepo.GetNextAutoincrementValue();
              item.Password = _crypt.CreateValueHash(item.Password);
             await _context.Documents.InsertOneAsync(item);
         }
 
-        public async Task<IEnumerable<User>> GetAllUser()
-        {
-            var documents = await _context.Documents.Find(_ => true).ToListAsync();
-            return documents;
-        }
-
-        public async Task<User> GetUser(string id)
-        {
-            ObjectId internalId = GetInternalId(id);
-            return await _context.Documents
-                            .Find(u => u.Id == 0
-                                    || u.InternalId == internalId)
-                            .FirstOrDefaultAsync();
-
-        }
+      
 
         public async Task<IEnumerable<User>> GetUsers(string id, DateTime updatedFrom, long headerSizeLimit)
         {
@@ -56,21 +42,6 @@ namespace webapp.Services
             password = _crypt.CreateValueHash(password);
            var query = _context.Documents.Find(u => u.UserName == userName && u.Password == password);
             return await query.FirstOrDefaultAsync();
-        }
-
-        public Task<bool> RemoveAllUser()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> RemoveUser(string id)
-        {
-            DeleteResult actionResult
-                           = await _context.Documents.DeleteOneAsync(
-                               Builders<User>.Filter.Eq("Id", id));
-
-            return actionResult.IsAcknowledged
-                && actionResult.DeletedCount > 0;
         }
 
         public async Task<bool> UpdateUser(User item)
@@ -87,30 +58,17 @@ namespace webapp.Services
                 && actionResult.ModifiedCount > 0;
         }
 
-        public async Task<bool> UpdateUser(User item, string id)
-        {
-            ReplaceOneResult actionResult
-                           = await _context.Documents
-                                           .ReplaceOneAsync(n => n.Id.Equals(id)
-                                                   , item
-                                                   , new UpdateOptions { IsUpsert = true });
-            return actionResult.IsAcknowledged
-                && actionResult.ModifiedCount > 0;
-        }
+       
 
-        public async Task<bool> UpdateUserDocument(string id, string Name)
+        public async Task<bool> UpdateUserDocument(int id, string Name)
         {
-            var item = await GetUser(id) ?? new User();
+            var item = await _genRepo.GetDocument(id) ?? new User();
             item.UserName = Name;
             item.UpdatedOn = DateTime.Now;
 
-            return await UpdateUser(item, id);
+            return await _genRepo.UpdateDocument(item, id);
         }
 
-        private ObjectId GetInternalId(string id)
-        {
-            ObjectId internalId;
-            return (!ObjectId.TryParse(id, out internalId)) ? internalId = ObjectId.Empty : internalId;            
-        }
+      
     }
 }

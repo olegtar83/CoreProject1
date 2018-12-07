@@ -8,7 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace webapp.Models
 {
-    public class User:BaseModel
+    public class User:BaseEntity 
     {
 
 
@@ -31,6 +31,12 @@ namespace webapp.Models
 
         public string Password { get; set; }
 
+        public string Description { get; set; }
+
+        public bool isMale { get; set; }
+
+        public bool isMalePreference { get; set; }
+
         public PrivateImage HeaderImage { get; set; }
 
     }
@@ -39,6 +45,6 @@ namespace webapp.Models
     {
         public string Url { get; set; } = string.Empty;
         public string ThumbnailUrl { get; set; } = string.Empty;
-        public long ImageSize { get; set; } = 0L;
+        public long ImageSize { get; set; } = 0;
     }
 }
