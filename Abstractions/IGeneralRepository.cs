@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,6 +20,8 @@ namespace webapp
         Task AddDocument(T item);
 
         Task<bool> UpdateDocument(T item, int id);
+
+        Task<bool> UpdateDocument(T item, FilterDefinition<T> filter, UpdateDefinition<T> update);
 
         ObjectId GetInternalId(int id);
     }

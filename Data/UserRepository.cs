@@ -28,8 +28,6 @@ namespace webapp.Services
             await _context.Documents.InsertOneAsync(item);
         }
 
-      
-
         public async Task<IEnumerable<User>> GetUsers(string id, DateTime updatedFrom, long headerSizeLimit)
         {
             var query = _context.Documents.Find(u =>  u.UpdatedOn >= updatedFrom &&
@@ -51,11 +49,7 @@ namespace webapp.Services
                        .Set(s => s.UserName, item.UserName)
                        .Set(s=>s.Password,item.Password)
                        .CurrentDate(s => s.UpdatedOn);
-            UpdateResult actionResult
-               = await _context.Documents.UpdateOneAsync(filter, update);
-
-            return actionResult.IsAcknowledged
-                && actionResult.ModifiedCount > 0;
+               return await _genRepo.UpdateDocument(item,filter,update);
         }
 
        

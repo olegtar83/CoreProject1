@@ -84,6 +84,13 @@ namespace webapp
             ObjectId internalId;
             return (!ObjectId.TryParse(id.ToString(), out internalId)) ? internalId = ObjectId.Empty : internalId;
         }
+        public async Task<bool> UpdateDocument(T item,FilterDefinition<T> filter,UpdateDefinition<T> update)
+        {
+            UpdateResult actionResult
+               = await _context.Documents.UpdateOneAsync(filter, update);
 
+            return actionResult.IsAcknowledged
+                && actionResult.ModifiedCount > 0;
+        }
     }
 }
