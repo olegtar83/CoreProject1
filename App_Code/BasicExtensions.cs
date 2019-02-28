@@ -13,7 +13,7 @@ namespace webapp
         {
             try
             {
-                return claims.FirstOrDefault(x => x.Type == claimType).Value;
+                return claims.FirstOrDefault(x => x.Type == claimType)?.Value;
             }
             catch (Exception ex)
             {
@@ -23,7 +23,7 @@ namespace webapp
 
         public static bool IsNull(this object obj)
         {
-            return obj == null ? true : false;
+            return obj == null;
         }
     }
 }

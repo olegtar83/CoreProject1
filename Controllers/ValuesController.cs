@@ -15,7 +15,7 @@ namespace webapp.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private ILogger<ValuesController> _logger;
+        private readonly ILogger<ValuesController> _logger;
         private IConfiguration _config;
 
         public ValuesController(ILogger<ValuesController> logger, IConfiguration configuration)

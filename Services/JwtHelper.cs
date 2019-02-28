@@ -13,7 +13,7 @@ namespace webapp.Services
 {
     public class JwtHelper : IJwtHelper
     {
-        private IConfiguration _config;
+        private readonly IConfiguration _config;
 
         public JwtHelper(IConfiguration config) {
             this._config = config;

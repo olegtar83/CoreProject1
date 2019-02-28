@@ -13,9 +13,9 @@ namespace webapp
 
         Task<T> GetDocument(int id);
 
-        Task<bool> RemoveAllDocumnets();
+        Task<bool> RemoveAllDocuments();
 
-        Task<IEnumerable<T>> GetAllDocumets();
+        Task<IEnumerable<T>> GetAllDocuments();
 
         Task AddDocument(T item);
 

@@ -12,9 +12,9 @@ namespace webapp.Services
   
     public class UserRepository : IUserRepository
     {
-        private IMongoContext<User> _context;
-        private IGeneralRepository<User>_genRepo;
-        private IEncryption _crypt;
+        private readonly IMongoContext<User> _context;
+        private readonly IGeneralRepository<User>_genRepo;
+        private readonly IEncryption _crypt;
         public UserRepository(IMongoContext<User> context,IGeneralRepository<User>genRepo,IEncryption crypt) {
             this._context = context;
             this._crypt = crypt;
@@ -54,10 +54,10 @@ namespace webapp.Services
 
        
 
-        public async Task<bool> UpdateUserDocument(int id, string Name)
+        public async Task<bool> UpdateUserDocument(int id, string name)
         {
             var item = await _genRepo.GetDocument(id) ?? new User();
-            item.UserName = Name;
+            item.UserName = name;
             item.UpdatedOn = DateTime.Now;
 
             return await _genRepo.UpdateDocument(item, id);

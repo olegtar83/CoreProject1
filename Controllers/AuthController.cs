@@ -23,7 +23,7 @@ namespace webapp.Controllers
 
         private IConfiguration _config;
         private readonly ILogger<AuthController> _logger;
-        private IJwtHelper _jwtHelper;
+        private readonly IJwtHelper _jwtHelper;
         private IUserRepository _userRepo;
         private readonly IMapper _mapper;
 

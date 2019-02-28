@@ -21,10 +21,8 @@ namespace webapp.Services
 
         public IMongoCollection<T> Documents
         {
-            get
-            {
-                return _database.GetCollection<T>(typeof(T).Name);
-            }
+            get =>  _database.GetCollection<T>(typeof(T).Name);
+
         }
     }
 }
