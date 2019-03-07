@@ -9,8 +9,6 @@ using Microsoft.Extensions.Logging;
 namespace webapp.Controllers
 {
 
-   
-
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase

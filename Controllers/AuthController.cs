@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
-using webapp.Services.Abstractions;
 using webapp.Models;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using webapp.Abstractions;
 
 namespace webapp.Controllers
 {

@@ -13,14 +13,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Autofac;
 using webapp.Services;
-using webapp.Services.Abstractions;
 using AutoMapper;
+using webapp.Abstractions;
+using webapp.Data;
+using webapp.Models;
 
 namespace webapp
 {
     public class Startup
     {
-        private IConfiguration _config = null;
+        private readonly IConfiguration _config = null;
         public Startup(IConfiguration configuration)
         {
             this._config = configuration;

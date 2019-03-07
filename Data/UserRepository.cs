@@ -1,13 +1,11 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Driver;
+using webapp.Abstractions;
 using webapp.Models;
-using webapp.Services.Abstractions;
 
-namespace webapp.Services
+namespace webapp.Data
 {
   
     public class UserRepository : IUserRepository

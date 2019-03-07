@@ -1,12 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using webapp.Services.Abstractions;
+using webapp.Abstractions;
+using webapp.Models;
 
-namespace webapp.Services
+namespace webapp.Data
 {
     public class MongoContext<T> : IMongoContext<T> 
     {

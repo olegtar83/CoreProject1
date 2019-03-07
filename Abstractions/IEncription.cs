@@ -1,4 +1,4 @@
-﻿namespace webapp
+﻿namespace webapp.Abstractions
 {
     public interface IEncryption
     {
