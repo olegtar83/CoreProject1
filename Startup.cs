@@ -14,9 +14,12 @@ using Microsoft.IdentityModel.Tokens;
 using Autofac;
 using webapp.Services;
 using AutoMapper;
+using Swashbuckle.AspNetCore.Swagger;
 using webapp.Abstractions;
 using webapp.Data;
 using webapp.Models;
+using System.Reflection;
+using System.IO;
 
 namespace webapp
 {
@@ -73,6 +76,32 @@ namespace webapp
                 });
             });
             services.AddAutoMapper();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = ".Net Core API",
+                    Description = ".Net Core Backend",
+                    Contact = new Contact
+                    {
+                        Name = "olegtar83@gmail.com",
+                        Email = string.Empty,
+                        Url = "https://twitter.com/olegtar83"
+                    },
+                    License = new License
+                    {
+                        Name = "Use under LICX",
+                        Url = "https://localhost/"
+                    }               
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+                
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -87,9 +116,17 @@ namespace webapp
             {
                 app.UseHsts();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.InjectStylesheet("/swagger/ui/custom.css");
+                c.RoutePrefix = string.Empty;
+            });
             app.UseCors("EnableCORS");
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
